@@ -12,7 +12,7 @@ const questions = [
 ];
 
 const answerChoices = [
-    1,2,3,4,5
+    1, 2, 3, 4, 5
 ];
 
 function createQuestions() {
@@ -24,11 +24,17 @@ function createQuestions() {
         p.text(question);
         const select = $('<select>');
         select.addClass('browser-default custom-select');
-        select.attr('id',`question${i}`);
+        select.attr('id', `question${i}`);
         answerChoices.forEach(choice => {
             const option = $('<option>');
-            option.attr('value',`${choice}`);
-            option.text(`${choice}`);
+            option.attr('value', `${choice}`);
+            if (choice === 1) {
+                option.text(`${choice}    (agree with least)`);
+            } else if (choice === 5) {
+                option.text(`${choice}    (agree with most)`);
+            } else {
+                option.text(`${choice}`);
+            }
             select.append(option);
         });
         div.append(p);
@@ -39,10 +45,10 @@ function createQuestions() {
     })
 }
 
-$('#goToSurvey').on('click',function() {
+$('#goToSurvey').on('click', function () {
     window.open('/survey');
 });
-$('#submit').on('click', function() {
+$('#submit').on('click', function () {
     event.preventDefault();
     $('#modalBody').empty();
     const name = $('#name').val().trim();
@@ -57,19 +63,45 @@ $('#submit').on('click', function() {
     const question8 = parseInt($('#question8 option:selected').val());
     const question9 = parseInt($('#question9 option:selected').val());
     const question10 = parseInt($('#question10 option:selected').val());
-    const newPerson = {name:name,picUrl:picUrl,question1:question1,question2:question2,question3:question3,question4:question4,question5:question5,question6:question6,question7:question7,question8:question8,question9:question9,question10:question10};
+    const newPerson = {
+        name: name,
+        picUrl: picUrl,
+        question1: question1,
+        question2: question2,
+        question3: question3,
+        question4: question4,
+        question5: question5,
+        question6: question6,
+        question7: question7,
+        question8: question8,
+        question9: question9,
+        question10: question10
+    };
     console.log(newPerson);
     $.post("/api/friends", newPerson)
-    .then(function(data) {
-      console.log(data);
-      const h3 = $('<h3>');
-      const img = $('<img>');
-      h3.text(data.name);
-      img.attr('src',data.picUrl);
-      $('#modalBody').append(h3);
-      $('#modalBody').append(img);
-      $('#results').modal();
-    });
+        .then(function (data) {
+            console.log(data);
+            const h3 = $('<h3>');
+            const img = $('<img>');
+            h3.text(data.name);
+            img.attr('src', data.picUrl);
+            $('#modalBody').append(h3);
+            $('#modalBody').append(img);
+            $('#results').modal();
+            //Return page back to default values
+            $('#name').val('')
+            $('#picUrl').val('')
+            $('#question1').val('1');
+            $('#question2').val('1');
+            $('#question3').val('1');
+            $('#question4').val('1');
+            $('#question5').val('1');
+            $('#question6').val('1');
+            $('#question7').val('1');
+            $('#question8').val('1');
+            $('#question9').val('1');
+            $('#question10').val('1');
+        });
 });
 
 createQuestions();

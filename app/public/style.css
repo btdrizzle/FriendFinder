@@ -25,3 +25,11 @@ p,label {
     font-weight: bold;
     margin-bottom: 10px;
 }
+footer a, footer a:active {
+    color: white;
+    font-family: 'Noto Sans', sans-serif;
+}
+footer a:hover {
+    color: purple;
+    font-family: 'Noto Sans', sans-serif;
+}

@@ -6,13 +6,10 @@ module.exports = function(app) {
     app.get("/api/friends", function(req, res) {
         connection.query(`SELECT * FROM userData`, function(err,result) {
             if(err) throw(err);
-            console.log(result);
             res.json(result);
         })
     });
     app.post("/api/friends", function(req, res) {
-        // req.body hosts is equal to the JSON post sent from the user
-        // This works because of our body parsing middleware
         const newFriend = req.body;
         connection.beginTransaction(function(err) {
             if(err) throw err;
