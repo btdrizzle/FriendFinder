@@ -1,27 +1,43 @@
 const mysql = require('mysql');
+const connection = mysql.createConnection(process.env.JAWSDB_URL);
 
 module.exports = function(app) {
-    const connection = mysql.createConnection(process.env.JAWSDB_URL);
-    connection.connect(function(err) {
-        if(err) throw err;
-        console.log(`Connected to Database!`);
+    //Returns ALL 
+    app.get("/api/friends", function(req, res) {
+        connection.query(`SELECT * FROM userData`, function(err,result) {
+            if(err) throw(err);
+            console.log(result);
+            res.json(result);
+        })
     });
-    app.get("/api/characters", function(req, res) {
-        return res.json(characters);
-    });
-    app.post("/api/characters", function(req, res) {
+    app.post("/api/friends", function(req, res) {
         // req.body hosts is equal to the JSON post sent from the user
         // This works because of our body parsing middleware
-       const newcharacter = req.body;
-    
-        // Using a RegEx Pattern to remove spaces from newCharacter
-        // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-        newcharacter.routeName = newcharacter.name.replace(/\s+/g, "").toLowerCase();
-    
-        console.log(newcharacter);
-    
-        characters.push(newcharacter);
-    
-        res.json(newcharacter);
+        const newFriend = req.body;
+        connection.beginTransaction(function(err) {
+            if(err) throw err;
+            connection.query(`INSERT INTO userData SET ?`,newFriend,function(error,rows) {
+                if(error) {
+                    return connection.rollback(function() {
+                        throw error
+                    });
+                }
+                connection.query(`SELECT * FROM userData`,function(error,results) {
+                    if(error) {
+                        return connection.rollback(function() {
+                            throw error;
+                        });
+                    }
+                    connection.commit(function(err) {
+                        if(err) {
+                            return connection.rollback(function() {
+                                throw err;
+                            })
+                        }
+                        console.log(results);
+                    });
+                });
+            });
+        });
     });
 }   

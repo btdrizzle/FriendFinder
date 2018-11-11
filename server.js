@@ -9,6 +9,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('app/public'));
 
+const connection = mysql.createConnection(process.env.JAWSDB_URL);
+connection.connect(function(err) {
+    console.log(`Connected to Database!`);
+});
 
 
 require('./app/routing/htmlRoutes')(app);
