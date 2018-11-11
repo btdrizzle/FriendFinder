@@ -18,9 +18,10 @@ p,label {
     font-weight: bold;
 }
 #modalBody img {
-    max-width: 200px;
+    max-width: 300px;
 }
 #modalBody h3 {
     font-family: 'Noto Sans', sans-serif;
     font-weight: bold;
+    margin-bottom: 10px;
 }
