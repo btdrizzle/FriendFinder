@@ -44,6 +44,7 @@ $('#goToSurvey').on('click',function() {
 });
 $('#submit').on('click', function() {
     event.preventDefault();
+    $('#modalBody').empty();
     const name = $('#name').val().trim();
     const picUrl = $('#picUrl').val().trim();
     const question1 = parseInt($('#question1 option:selected').val());
