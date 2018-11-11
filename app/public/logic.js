@@ -61,7 +61,13 @@ $('#submit').on('click', function() {
     $.post("/api/friends", newPerson)
     .then(function(data) {
       console.log(data);
-      
+      const h3 = $('<h3>');
+      const img = $('<img>');
+      h3.text(data.name);
+      img.attr('src',data.picUrl);
+      $('#modalBody').append(h3);
+      $('#modalBody').append(img);
+      $('#results').modal();
     });
 });
 

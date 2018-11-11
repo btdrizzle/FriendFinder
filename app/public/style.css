@@ -13,5 +13,14 @@ p,label {
     width: 100%;
 }
 #resultsTitle {
-    color:  #7dce94
+    color:  #7dce94;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
+}
+#modalBody img {
+    max-width: 200px;
+}
+#modalBody h3 {
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
 }
